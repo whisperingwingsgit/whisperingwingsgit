@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Whispering Wings Homestay — Your Home in the Hills</title>
+  <meta name="description" content="Experience the magic of hill living at Whispering Wings Homestay. Cozy rooms, home-cooked meals, and breathtaking mountain views await you." />
+  <meta name="keywords" content="homestay, hill station, mountain accommodation, nature stay, peaceful getaway" />
+  <meta property="og:title" content="Whispering Wings Homestay" />
+  <meta property="og:description" content="Your perfect mountain escape. Authentic, warm, and unforgettable." />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌿</text></svg>" />
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+  <style>
+    /* ── MAP SECTION ── */
+    .map-section {
+      position: relative;
+    }
+
+    #homestay-map {
+      width: 100%;
+      height: 480px;
+      display: block;
+      z-index: 1;
+    }
+
+    /* Custom map overlay card */
+    .map-info-card {
+      position: absolute;
+      top: 50%;
+      left: 5%;
+      transform: translateY(-50%);
+      z-index: 800;
+      background: rgba(255, 255, 255, 0.97);
+      backdrop-filter: blur(12px);
+      border-radius: 4px;
+      padding: 2rem 2rem 1.75rem;
+      box-shadow: 0 12px 48px rgba(44, 74, 62, 0.22);
+      max-width: 300px;
+      border-left: 3px solid #C8963E;
+    }
+
+    .map-info-card .eyebrow {
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #C8963E;
+      margin-bottom: 0.6rem;
+      display: block;
+    }
+
+    .map-info-card h3 {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 1.45rem;
+      color: #1A1A1A;
+      margin-bottom: 0.6rem;
+      line-height: 1.2;
+    }
+
+    .map-info-card p {
+      font-size: 0.82rem;
+      color: #6A6A6A;
+      line-height: 1.65;
+      margin-bottom: 1.25rem;
+    }
+
+    .map-directions-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: #2C4A3E;
+      color: white;
+      padding: 9px 18px;
+      border-radius: 2px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .map-directions-btn:hover {
+      background: #3D6B5C;
+      transform: translateY(-1px);
+    }
+
+    /* Leaflet custom marker popup */
+    .leaflet-popup-content-wrapper {
+      border-radius: 4px !important;
+      box-shadow: 0 8px 32px rgba(44,74,62,0.18) !important;
+      padding: 0 !important;
+    }
+    .leaflet-popup-content {
+      margin: 0 !important;
+    }
+    .custom-popup {
+      padding: 1rem 1.25rem;
+      font-family: 'Jost', sans-serif;
+      min-width: 180px;
+    }
+    .custom-popup strong {
+      display: block;
+      font-size: 0.88rem;
+      color: #2C4A3E;
+      margin-bottom: 0.2rem;
+    }
+    .custom-popup span {
+      font-size: 0.78rem;
+      color: #6A6A6A;
+    }
+    .leaflet-popup-tip {
+      background: white !important;
+    }
+
+    /* Tile filter for a warm, muted look */
+    .leaflet-tile {
+      filter: saturate(0.75) brightness(1.04) sepia(0.08);
+    }
+
+    @media (max-width: 600px) {
+      #homestay-map { height: 420px; }
+      .map-info-card {
+        top: auto;
+        bottom: 1.25rem;
+        left: 50%;
+        transform: translateX(-50%);
+        max-width: calc(100% - 2.5rem);
+        padding: 1.25rem 1.25rem 1.1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav" id="main-nav">
+  <a href="index.html" class="nav-logo">Whispering Wings <span>Homestay</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="rooms.html">Rooms</a></li>
+    <li><a href="gallery.html">Gallery</a></li>
+    <li><a href="amenities.html">Amenities</a></li>
+    <!-- <li><a href="reviews.html">Reviews</a></li> -->
+    <li><a href="activities.html">Activities</a></li>
+    <li><a href="contact.html" class="nav-cta">Book Now</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="mobile-menu" id="mobile-menu">
+  <a href="index.html">Home</a>
+  <a href="about.html">About</a>
+  <a href="rooms.html">Rooms</a>
+  <a href="gallery.html">Gallery</a>
+  <a href="amenities.html">Amenities</a>
+  <!-- <a href="reviews.html">Reviews</a> -->
+  <a href="activities.html">Activities</a>
+  <a href="contact.html" class="mobile-cta">Book Now</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <p class="hero-eyebrow fade-up">✦ Hill Station Retreat ✦</p>
+    <h1 class="hero-title fade-up fade-up-d1">
+      Wake Up to <em>Mountain Magic</em> Every Day
+    </h1>
+    <p class="hero-subtitle fade-up fade-up-d2">
+      A family-run homestay nestled in the hills where nature, culture, and warm hospitality come together for an unforgettable stay.
+    </p>
+    <div class="hero-actions fade-up fade-up-d3">
+      <a href="rooms.html" class="btn-primary">Explore Rooms</a>
+      <a href="contact.html" class="btn-outline">Book Your Stay</a>
+    </div>
+    <div class="hero-stats fade-up fade-up-d4">
+      <div>
+        <span class="hero-stat-num" data-count="500" data-suffix="+">500+</span>
+        <span class="hero-stat-label">Happy Guests</span>
+      </div>
+      <div>
+        <span class="hero-stat-num" data-count="8" data-suffix="">8</span>
+        <span class="hero-stat-label">Cozy Rooms</span>
+      </div>
+      <div>
+        <span class="hero-stat-num" data-count="4" data-suffix=".9">4.9</span>
+        <span class="hero-stat-label">Avg. Rating</span>
+      </div>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <img src="images/_AYN8872_small.jpg.jpeg"></img>
+    <!-- <div class="hero-img-placeholder">
+      <span class="ph-icon">🏡</span>
+      <p>HERO PHOTO — Add your best property shot here</p>
+      <p style="font-size:0.72rem;opacity:0.4;">Recommended: 1200×900px landscape</p>
+    </div> -->
+    <div class="hero-badge">
+      <span class="hero-badge-icon">🌿</span>
+      <div class="hero-badge-text">
+        <strong>Eco-Friendly Stay</strong>
+        <span>Surrounded by nature</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES STRIP -->
+<div class="features-strip">
+  <div class="features-grid">
+    <div class="feature-item">
+      <div class="f-icon">🍽️</div>
+      <strong>Home-Cooked Meals</strong>
+      <span>Authentic local cuisine</span>
+    </div>
+    <div class="feature-item">
+      <div class="f-icon">🏔️</div>
+      <strong>Mountain Views</strong>
+      <span>Panoramic vistas from rooms</span>
+    </div>
+    <div class="feature-item">
+      <div class="f-icon">🚶</div>
+      <strong>Guided Treks</strong>
+      <span>Explore scenic trails</span>
+    </div>
+    <div class="feature-item">
+      <div class="f-icon">📶</div>
+      <strong>Free WiFi</strong>
+      <span>Stay connected always</span>
+    </div>
+  </div>
+</div>
+
+<!-- ABOUT SNIPPET -->
+<section class="section">
+  <div class="about-grid container">
+    <div class="about-visual reveal">
+      <img src="images/DSC_1770_small.jpg"></img>
+      <!-- <div class="about-img-ph">
+        <span class="ph-icon">👨‍👩‍👧‍👦</span>
+        <p>Add a warm family photo here</p>
+      </div> -->
+      <div class="about-accent">
+       <div class="about-accent-ph">
+          <img src="images/BALCONY_VIEW_small.jpg"></img>
+          <!-- <span class="ph-icon">🌸</span>
+          <p>GARDEN PHOTO</p> -->
+        </div>
+      </div>
+    </div>
+    <div class="about-content reveal">
+      <span class="section-eyebrow">Our Story</span>
+      <h2>A Home Away from Home, High in the Hills</h2>
+      <p>We are the [Your Family Name] family, and we have been welcoming travellers into our home for over a decade. What started as a dream to share the beauty of our hills with the world has grown into a beloved retreat for families, couples, and solo travellers alike.</p>
+      <p>Every corner of Whispering Wings Homestay reflects our love for this land — from the hand-crafted furniture to the heirloom recipes we serve at our table. When you stay with us, you become part of our family.</p>
+      <div class="about-values">
+        <div class="about-value">
+          <span class="about-value-icon">🤲</span>
+          <div>
+            <strong>Warm Hospitality</strong>
+            <span>Every guest is treated like family, with personal attention and care</span>
+          </div>
+        </div>
+        <div class="about-value">
+          <span class="about-value-icon">🌱</span>
+          <div>
+            <strong>Sustainable Living</strong>
+            <span>We grow our own vegetables and practice eco-friendly living</span>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:2.5rem;">
+        <a href="about.html" class="btn-primary">Read Our Story</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ROOMS PREVIEW -->
+<section class="section section-alt">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-eyebrow">Accommodation</span>
+      <h2 class="section-title">Rooms Made for Comfort</h2>
+      <p class="section-subtitle">Each room is thoughtfully designed to blend rustic charm with modern comforts</p>
+    </div>
+    <div class="rooms-grid">
+      <div class="room-card reveal">
+        <div class="room-img">
+          <div class="room-placeholder">
+            <!-- <span class="ph-icon">🛏️</span> -->
+            <img src="images/DSC_1753_small.jpg"></img>
+            <!-- <p>ROOM PHOTO</p> -->
+          </div>
+          <span class="room-tag">Popular</span>
+        </div>
+        <div class="room-info">
+          <h3>Mountain View Deluxe With Balcony</h3>
+          <p class="room-price">FROM ₹2,500 / NIGHT</p>
+          <p>Wake up to misty mountain vistas from this beautifully appointed room with a private balcony perfect for morning chai.</p>
+          <div class="room-amenities">
+            <span>🌄 Mountain View</span><span>🛁 Attached Bath</span><span>☕ Kettle</span><span>❄️ Heater</span>
+          </div>
+          <a href="rooms.html" class="btn-outline">View Details</a>
+        </div>
+      </div>
+      <div class="room-card reveal">
+        <div class="room-img">
+          <div class="room-placeholder">
+            <!-- <span class="ph-icon">🛏️</span>
+            <p>ROOM PHOTO</p> -->
+            <img src="images/DSC_1723_small.jpg"></img>
+          </div>
+          <span class="room-tag">Cozy</span>
+        </div>
+        <div class="room-info">
+          <h3>Valley View Room</h3>
+          <p class="room-price">FROM ₹1,800 / NIGHT</p>
+          <p>A charming room with expansive valley views and comfortable beds for a cozy stay.</p>
+          <div class="room-amenities">
+            <span>🌺 Garden</span><span>🛁 Attached Bath</span><span>🕯️ Romantic</span><span>🔥 Bonfire</span>
+          </div>
+          <a href="rooms.html" class="btn-outline">View Details</a>
+        </div>
+      </div>
+      <div class="room-card reveal">
+        <div class="room-img">
+          <div class="room-placeholder">
+            <!-- <span class="ph-icon">🛏️</span><p>ROOM PHOTO</p> -->
+            <img src="images/DSC_1641_small.jpg"></img>
+          </div>
+          <span class="room-tag">Family</span>
+        </div>
+        <div class="room-info">
+          <h3>Family Room</h3>
+          <p class="room-price">FROM ₹4,000 / NIGHT</p>
+          <p>Spacious room with two double beds and a garden patio — perfect for families and groups.</p>
+          <div class="room-amenities">
+            <span>👨‍👩‍👧 2 Bedrooms</span><span>🛁 2 Baths</span><span>🌿 Garden</span><span>📺 TV</span>
+          </div>
+          <a href="rooms.html" class="btn-outline">View Details</a>
+        </div>
+      </div>
+      
+    </div>
+    <div style="text-align:center; margin-top:3rem;">
+      <a href="rooms.html" class="btn-primary">See All Rooms</a>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY PREVIEW -->
+<section class="section">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-eyebrow">Visual Story</span>
+      <h2 class="section-title">Glimpses of Serenity</h2>
+      <p class="section-subtitle">A few snapshots from our valley — every season brings a new palette of beauty</p>
+    </div>
+    <div class="gallery-grid">
+      <div class="gallery-item">
+        <div class="gallery-ph">
+          <!-- <span class="ph-icon">🌄</span><p>HERO LANDSCAPE</p> -->
+          <img src ="images/gallery/_AYN8472_small.jpg.jpeg" />
+        </div>
+        <div class="gallery-overlay">
+          <span class="gallery-overlay-icon">🔍</span>
+        </div>
+      </div>
+      <div class="gallery-item">
+        <div class="gallery-ph">
+          <!-- <span class="ph-icon">🏡</span><p>PROPERTY EXTERIOR</p> -->
+          <img src ="images/gallery/_AYN8914_small.jpg.jpeg" />
+        </div>
+        <div class="gallery-overlay"><span class="gallery-overlay-icon">🔍</span></div>
+      </div>
+      <div class="gallery-item">
+        <div class="gallery-ph">
+          <!-- <span class="ph-icon">🛏️</span><p>ROOM INTERIOR</p> -->
+          <img src ="images/gallery/DSC_1856_small.jpg.jpeg" />
+        </div>
+        <div class="gallery-overlay"><span class="gallery-overlay-icon">🔍</span></div>
+      </div>
+      <div class="gallery-item">
+        <div class="gallery-ph">
+          <!-- <span class="ph-icon">🍽️</span><p>FOOD & DINING</p> -->
+          <img src ="images/gallery/DSC_1906_small.jpg.jpeg" />
+        </div>
+        <div class="gallery-overlay"><span class="gallery-overlay-icon">🔍</span></div>
+      </div>
+      <div class="gallery-item">
+        <div class="gallery-ph">
+          <!-- <span class="ph-icon">🌿</span><p>GARDEN & NATURE</p> -->
+          <img src ="images/gallery/elephant lake or kupup lake_small.jpg.jpeg" />
+        </div>
+        <div class="gallery-overlay"><span class="gallery-overlay-icon">🔍</span></div>
+      </div>
+      <div class="gallery-item">
+        <div class="gallery-ph">
+          <!-- <span class="ph-icon">🌅</span><p>SUNSET VIEW</p> -->
+          <img src ="images/gallery/WORK FROM MOUNTAINS_small.jpg.jpeg" />
+        </div>
+        <div class="gallery-overlay"><span class="gallery-overlay-icon">🔍</span></div>
+      </div>
+    </div>
+    <div style="text-align:center; margin-top:2.5rem;">
+      <a href="gallery.html" class="btn-outline">View Full Gallery</a>
+    </div>
+  </div>
+</section>
+
+<!-- VIDEO SECTION -->
+<!-- <section class="video-section">
+  <div class="video-header reveal">
+    <span class="section-eyebrow">Experience Us</span>
+    <h2 class="section-title">See the Magic for Yourself</h2>
+    <p class="section-subtitle">Watch our property tour and guest experiences — let the views speak for themselves</p>
+  </div>
+  <div class="video-grid container" style="margin-top:3rem;">
+    <div class="video-item reveal" onclick="openVideo('YOUR_YOUTUBE_VIDEO_URL_HERE')">
+      <div class="video-thumb" style="min-height:340px;">
+        <div class="play-btn">▶</div>
+        <span class="video-label">PROPERTY TOUR VIDEO THUMBNAIL</span>
+      </div>
+      <div class="video-title">🎬 Full Property Tour — Whispering Wings Homestay</div>
+    </div>
+    <div class="video-item reveal" onclick="openVideo('YOUR_YOUTUBE_VIDEO_URL_HERE')">
+      <div class="video-thumb">
+        <div class="play-btn" style="width:48px;height:48px;font-size:1.1rem;">▶</div>
+        <span class="video-label" style="font-size:0.65rem;">GUEST TESTIMONIAL</span>
+      </div>
+      <div class="video-title">💬 Guest Experience Stories</div>
+    </div>
+    <div class="video-item reveal" onclick="openVideo('YOUR_YOUTUBE_VIDEO_URL_HERE')">
+      <div class="video-thumb">
+        <div class="play-btn" style="width:48px;height:48px;font-size:1.1rem;">▶</div>
+        <span class="video-label" style="font-size:0.65rem;">TREKKING VIDEO</span>
+      </div>
+      <div class="video-title">🏔️ Trekking & Activities</div>
+    </div>
+    <div class="video-item reveal" onclick="openVideo('YOUR_YOUTUBE_VIDEO_URL_HERE')">
+      <div class="video-thumb">
+        <div class="play-btn" style="width:48px;height:48px;font-size:1.1rem;">▶</div>
+        <span class="video-label" style="font-size:0.65rem;">SEASONAL REEL</span>
+      </div>
+      <div class="video-title">🌸 Seasons of the Valley</div>
+    </div>
+  </div>
+</section> -->
+
+<!-- REVIEW SNIPPET -->
+<!-- <section class="section section-alt">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-eyebrow">Testimonials</span>
+      <h2 class="section-title">What Our Guests Say</h2>
+    </div>
+    <div class="reviews-grid">
+      <div class="review-card reveal">
+        <div class="stars">★★★★★</div>
+        <p class="review-text">Absolutely magical. The views from our room took our breath away every single morning. The family was incredibly warm and the food was some of the best we've had anywhere in India.</p>
+        <div class="review-author">
+          <div class="reviewer-avatar">P</div>
+          <div>
+            <div class="reviewer-name">Priya & Rahul Sharma</div>
+            <div class="reviewer-location">📍 Mumbai</div>
+          </div>
+        </div>
+      </div>
+      <div class="rating-summary reveal">
+        <div class="big-num">4.9</div>
+        <div class="stars">★★★★★</div>
+        <p>Average Rating</p>
+        <p style="margin-top:0.5rem; font-size:0.8rem;">Based on 200+ reviews across Google, TripAdvisor & Booking.com</p>
+        <a href="reviews.html" class="btn-outline" style="margin-top:1.5rem; border-color:rgba(255,255,255,0.4); color:white;">Read All Reviews</a>
+      </div>
+      <div class="review-card reveal">
+        <div class="stars">★★★★★</div>
+        <p class="review-text">We've stayed at many homestays but this one stands apart. The peace, the food, the hosts — everything was perfect. Already planning our next visit. This place has our hearts!</p>
+        <div class="review-author">
+          <div class="reviewer-avatar">A</div>
+          <div>
+            <div class="reviewer-name">Arun Krishnamurthy</div>
+            <div class="reviewer-location">📍 Bangalore</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section> -->
+
+<!-- CTA SECTION -->
+<section class="section" style="background: linear-gradient(135deg, var(--forest) 0%, var(--forest-light) 100%); text-align:center;">
+  <div class="container">
+    <span class="section-eyebrow" style="color:var(--gold-light);">Ready to Escape?</span>
+    <h2 class="section-title" style="color:white; font-size: clamp(2.2rem, 4vw, 3.5rem); margin-bottom:1.5rem;">Book Your Stay Today</h2>
+    <p style="color:rgba(255,255,255,0.7); max-width:500px; margin:0 auto 3rem; font-size:1rem;">Availability is limited. Reach out on WhatsApp or fill our booking form and we'll get back to you within hours.</p>
+    <div style="display:flex; gap:1.5rem; justify-content:center; flex-wrap:wrap;">
+      <a href="contact.html" class="btn-primary" style="background:var(--gold); border-color:var(--gold);">Send Booking Request</a>
+      <a href="tel:+919999999999" class="wa-btn" style="background:rgba(255,255,255,0.15); border:1px solid rgba(255,255,255,0.3);">📞 Call Us Now</a>
+    </div>
+  </div>
+</section>
+
+<!-- MAP -->
+<!-- <section class="map-section">
+  <div class="map-placeholder" onclick="window.open('https://maps.google.com/?q=YOUR+HOMESTAY+LOCATION', '_blank')">
+    <span class="map-pin-icon">📍</span>
+    <h3>Find Us on the Map</h3>
+    <p>Village Name, District, State — India</p>
+    <a href="https://maps.google.com/?q=YOUR+HOMESTAY+LOCATION" target="_blank">Open in Google Maps →</a>
+    <p style="font-size:0.72rem; margin-top:0.5rem; opacity:0.45;">Click to open directions · Replace this with an embedded Google Map</p>
+  </div>
+</section> -->
+
+
+<!-- ═══════════════════════════════════════════════
+     OPENSTREETMAP — replace lat/lng with your real coords
+     Current placeholder: Himalayan foothills, Uttarakhand
+     ═══════════════════════════════════════════════ -->
+<section class="map-section">
+  <div id="homestay-map"></div>
+
+  <div class="map-info-card">
+    <span class="eyebrow">Find Us</span>
+    <h3>Whispering Wings Homestay</h3>
+    <p>
+      [Village Name], [District]<br>
+      [State] — India
+    </p>
+    <a
+      class="map-directions-btn"
+      href="https://www.openstreetmap.org/directions?to=30.3165,78.0322"
+      target="_blank"
+      rel="noopener"
+    >
+      🗺️ Get Directions
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="logo">Whispering Wings <span>Homestay</span></div>
+      <p>A family-run mountain retreat where every sunrise tells a story and every guest becomes part of ours.</p>
+      <div class="social-links">
+        <a href="https://instagram.com/YOURHANDLE" class="social-link" target="_blank" title="Instagram">📸</a>
+        <a href="https://facebook.com/YOURPAGE" class="social-link" target="_blank" title="Facebook">📘</a>
+        <a href="https://youtube.com/@YOURCHANNEL" class="social-link" target="_blank" title="YouTube">▶️</a>
+        <a href="https://wa.me/919999999999" class="social-link" target="_blank" title="WhatsApp">💬</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="rooms.html">Rooms</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="amenities.html">Amenities</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Explore</h4>
+      <ul>
+        <!-- <li><a href="reviews.html">Guest Reviews</a></li> -->
+        <li><a href="activities.html">Activities</a></li>
+        <li><a href="contact.html">Contact Us</a></li>
+        <li><a href="contact.html">Book a Room</a></li>
+      </ul>
+    </div>
+    <div class="footer-col footer-newsletter">
+      <h4>Stay in Touch</h4>
+      <p>Get seasonal offers and travel tips from our valley.</p>
+      <!-- <div class="newsletter-form">
+        <input type="email" placeholder="your@email.com" />
+        <button>Join</button>
+      </div> -->
+      <div style="margin-top:1.5rem; font-size:0.82rem; line-height:1.8;">
+        <div>📍 Village, District, State, India</div>
+        <div style="margin-top:0.5rem;">📞 <a href="tel:+919999999999" style="color:var(--gold-light);">+91 99999 99999</a></div>
+        <div>✉️ <a href="mailto:hello@serenevalley.in" style="color:var(--gold-light);">hello@serenevalley.in</a></div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 Whispering Wings Homestay. All rights reserved. Designed by Tripyzen Hospitality Solutions.</p>
+    <div class="footer-bottom-links">
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Stay</a>
+    </div>
+  </div>
+</footer>
+
+<!-- FLOATING BUTTONS -->
+<div class="float-actions">
+  <a href="https://wa.me/919999999999?text=Hello!%20I%20would%20like%20to%20book%20a%20stay%20at%20Serene%20Valley%20Homestay." class="float-wa" target="_blank" title="Chat on WhatsApp">💬</a>
+  <a href="tel:+919999999999" class="float-call" title="Call Us">📞</a>
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+  <div class="lightbox-content">
+    <img class="lb-img" src="" alt="" style="display:none;" />
+    <div class="lightbox-ph">
+      <span style="font-size:4rem; opacity:0.5;">🖼️</span>
+      <p style="color:var(--forest); font-size:0.9rem;">Your photo will display here</p>
+    </div>
+  </div>
+</div>
+
+<!-- VIDEO MODAL -->
+<div id="video-modal" style="display:none; position:fixed; inset:0; z-index:9999; background:rgba(0,0,0,0.92); align-items:center; justify-content:center;">
+  <button onclick="closeVideo()" style="position:fixed; top:1.5rem; right:1.5rem; background:none; border:none; color:white; font-size:2rem; cursor:pointer; opacity:0.7;">✕</button>
+  <div style="width:min(90vw, 900px); aspect-ratio:16/9;">
+    <iframe width="100%" height="100%" frameborder="0" allow="autoplay; fullscreen" allowfullscreen style="border-radius:4px;"></iframe>
+  </div>
+</div>
+
+<script src="js/main.js"></script>
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+  // ─────────────────────────────────────────────
+  // 📍 UPDATE THESE COORDINATES TO YOUR REAL LOCATION
+  //    Example below: Rishikesh area, Uttarakhand
+  // ─────────────────────────────────────────────
+  const LAT  = 30.3165;
+  const LNG  = 78.0322;
+  const ZOOM = 13;
+
+  // Custom forest-green pin using SVG
+  const pinIcon = L.divIcon({
+    className: '',
+    html: `
+      <svg width="38" height="52" viewBox="0 0 38 52" xmlns="http://www.w3.org/2000/svg">
+        <filter id="drop-shadow">
+          <feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="rgba(44,74,62,0.35)"/>
+        </filter>
+        <g filter="url(#drop-shadow)">
+          <path d="M19 2C10.716 2 4 8.716 4 17c0 11.25 15 31 15 31s15-19.75 15-31C34 8.716 27.284 2 19 2z"
+                fill="#2C4A3E" stroke="white" stroke-width="1.5"/>
+        </g>
+        <circle cx="19" cy="17" r="6.5" fill="white" opacity="0.95"/>
+        <text x="19" y="21" text-anchor="middle" font-size="9" fill="#2C4A3E">🌿</text>
+      </svg>`,
+    iconSize:   [38, 52],
+    iconAnchor: [19, 52],
+    popupAnchor:[0, -54]
+  });
+
+  // Initialise map
+  const map = L.map('homestay-map', {
+    center: [LAT, LNG],
+    zoom:    ZOOM,
+    zoomControl: false,
+    scrollWheelZoom: false
+  });
+
+  // Zoom control — bottom right, away from the info card
+  L.control.zoom({ position: 'bottomright' }).addTo(map);
+
+  // OpenStreetMap tile layer (free, no API key needed)
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    maxZoom: 19
+  }).addTo(map);
+
+  // Marker + popup
+  const marker = L.marker([LAT, LNG], { icon: pinIcon }).addTo(map);
+
+  marker.bindPopup(`
+    <div class="custom-popup">
+      <strong>🌿 Whispering Wings Homestay</strong>
+      <span>[Village Name], [District], [State]</span>
+    </div>
+  `, {
+    offset: [0, -4],
+    maxWidth: 220
+  });
+
+  // Open popup by default
+  marker.openPopup();
+
+  // Re-enable scroll zoom only after user clicks the map
+  map.once('click', () => map.scrollWheelZoom.enable());
+</script>
+</body>
+</html>
