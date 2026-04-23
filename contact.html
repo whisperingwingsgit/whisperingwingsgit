@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact & Book — Whispering Wings Homestay</title>
+  <meta name="description" content="Contact Whispering Wings Homestay to book your stay, ask questions, or plan your visit. Call, WhatsApp, or fill in our inquiry form." />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌿</text></svg>" />
+
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+  <style>
+    /* ── MAP SECTION ── */
+    .map-section {
+      position: relative;
+    }
+
+    #homestay-map {
+      width: 100%;
+      height: 480px;
+      display: block;
+      z-index: 1;
+    }
+
+    /* Custom map overlay card */
+    .map-info-card {
+      position: absolute;
+      top: 50%;
+      left: 5%;
+      transform: translateY(-50%);
+      z-index: 800;
+      background: rgba(255, 255, 255, 0.97);
+      backdrop-filter: blur(12px);
+      border-radius: 4px;
+      padding: 2rem 2rem 1.75rem;
+      box-shadow: 0 12px 48px rgba(44, 74, 62, 0.22);
+      max-width: 300px;
+      border-left: 3px solid #C8963E;
+    }
+
+    .map-info-card .eyebrow {
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #C8963E;
+      margin-bottom: 0.6rem;
+      display: block;
+    }
+
+    .map-info-card h3 {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 1.45rem;
+      color: #1A1A1A;
+      margin-bottom: 0.6rem;
+      line-height: 1.2;
+    }
+
+    .map-info-card p {
+      font-size: 0.82rem;
+      color: #6A6A6A;
+      line-height: 1.65;
+      margin-bottom: 1.25rem;
+    }
+
+    .map-directions-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: #2C4A3E;
+      color: white;
+      padding: 9px 18px;
+      border-radius: 2px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .map-directions-btn:hover {
+      background: #3D6B5C;
+      transform: translateY(-1px);
+    }
+
+    /* Leaflet custom marker popup */
+    .leaflet-popup-content-wrapper {
+      border-radius: 4px !important;
+      box-shadow: 0 8px 32px rgba(44,74,62,0.18) !important;
+      padding: 0 !important;
+    }
+    .leaflet-popup-content {
+      margin: 0 !important;
+    }
+    .custom-popup {
+      padding: 1rem 1.25rem;
+      font-family: 'Jost', sans-serif;
+      min-width: 180px;
+    }
+    .custom-popup strong {
+      display: block;
+      font-size: 0.88rem;
+      color: #2C4A3E;
+      margin-bottom: 0.2rem;
+    }
+    .custom-popup span {
+      font-size: 0.78rem;
+      color: #6A6A6A;
+    }
+    .leaflet-popup-tip {
+      background: white !important;
+    }
+
+    /* Tile filter for a warm, muted look */
+    .leaflet-tile {
+      filter: saturate(0.75) brightness(1.04) sepia(0.08);
+    }
+
+    @media (max-width: 600px) {
+      #homestay-map { height: 420px; }
+      .map-info-card {
+        top: auto;
+        bottom: 1.25rem;
+        left: 50%;
+        transform: translateX(-50%);
+        max-width: calc(100% - 2.5rem);
+        padding: 1.25rem 1.25rem 1.1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="nav" id="main-nav">
+  <a href="index.html" class="nav-logo">Whispering Wings <span>Homestay</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li><li><a href="about.html">About</a></li>
+    <li><a href="rooms.html">Rooms</a></li><li><a href="gallery.html">Gallery</a></li>
+    <li><a href="amenities.html">Amenities</a></li>
+    <!-- <li><a href="reviews.html">Reviews</a></li> -->
+    <li><a href="activities.html">Activities</a></li>
+    <li><a href="contact.html" class="nav-cta">Book Now</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+</nav>
+<div class="mobile-menu" id="mobile-menu">
+  <a href="index.html">Home</a><a href="about.html">About</a><a href="rooms.html">Rooms</a>
+  <a href="gallery.html">Gallery</a><a href="amenities.html">Amenities</a>
+  <!-- <a href="reviews.html">Reviews</a> -->
+  <a href="activities.html">Activities</a>
+  <a href="contact.html" class="mobile-cta">Book Now</a>
+</div>
+
+<section class="page-hero-section">
+  <div class="breadcrumb"><a href="index.html">Home</a> → Contact & Book</div>
+  <h1>Get in Touch</h1>
+  <p>Ready to plan your escape? We respond within a few hours and are happy to help you plan the perfect stay</p>
+</section>
+
+<!-- CONTACT SECTION -->
+<section class="section">
+  <div class="contact-grid container">
+    <!-- LEFT: INFO -->
+    <div class="contact-info reveal">
+      <span class="section-eyebrow">Reach Us</span>
+      <h2>Let's Plan Your Stay</h2>
+      <p>Whether you want to check availability, ask about activities, or just have a question about getting here — we are always happy to help. The quickest way to reach us is WhatsApp.</p>
+
+      <div class="contact-details">
+        <div class="contact-detail">
+          <div class="contact-detail-icon">📞</div>
+          <div>
+            <strong>Phone / WhatsApp</strong>
+            <span><a href="tel:+919999999999">+91 99999 99999</a></span>
+          </div>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-detail-icon">✉️</div>
+          <div>
+            <strong>Email</strong>
+            <span><a href="mailto:hello@serenevalley.in">hello@serenevalley.in</a></span>
+          </div>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-detail-icon">📍</div>
+          <div>
+            <strong>Location</strong>
+            <span>[Village Name], [District], [State] — India<br>
+            <a href="https://maps.google.com/?q=YOUR+LOCATION" target="_blank">Open in Google Maps →</a></span>
+          </div>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-detail-icon">⏰</div>
+          <div>
+            <strong>Check-In / Check-Out</strong>
+            <span>Check-in: 12:00 PM · Check-out: 11:00 AM<br>Early/late check-in on request</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="quick-actions">
+        <a href="https://wa.me/919999999999?text=Hello!%20I%20would%20like%20to%20book%20a%20stay%20at%20Serene%20Valley%20Homestay." target="_blank" class="wa-btn">💬 Chat on WhatsApp</a>
+        <a href="tel:+919999999999" class="call-btn">📞 Call Now</a>
+      </div>
+
+      <!-- SOCIAL -->
+      <div style="margin-top:2.5rem; padding-top:2.5rem; border-top:1px solid var(--border);">
+        <p style="font-size:0.8rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:1.25rem;color:var(--text-light);">Follow Us</p>
+        <div style="display:flex;gap:1rem;flex-wrap:wrap;">
+          <a href="https://instagram.com/YOURHANDLE" target="_blank" style="display:flex;align-items:center;gap:0.5rem;padding:8px 16px;border:1px solid var(--border);border-radius:2px;font-size:0.8rem;transition:all 0.2s;" onmouseover="this.style.borderColor='var(--forest)';this.style.color='var(--forest)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text)'">📸 Instagram</a>
+          <a href="https://facebook.com/YOURPAGE" target="_blank" style="display:flex;align-items:center;gap:0.5rem;padding:8px 16px;border:1px solid var(--border);border-radius:2px;font-size:0.8rem;transition:all 0.2s;" onmouseover="this.style.borderColor='var(--forest)';this.style.color='var(--forest)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text)'">📘 Facebook</a>
+          <a href="https://youtube.com/@YOURCHANNEL" target="_blank" style="display:flex;align-items:center;gap:0.5rem;padding:8px 16px;border:1px solid var(--border);border-radius:2px;font-size:0.8rem;transition:all 0.2s;" onmouseover="this.style.borderColor='var(--forest)';this.style.color='var(--forest)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text)'">▶️ YouTube</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: FORM -->
+    <div class="contact-form-wrap reveal">
+      <h3>Send a Booking Request</h3>
+      <p>Fill in your details and we'll get back to you within a few hours with availability and confirmation.</p>
+      <!-- <form class="contact-form" novalidate> -->
+      <form class="contact-form" action="https://api.web3forms.com/submit" method="POST" novalidate>
+        <input type="hidden" name="access_key" value="95a961ab-068c-434c-a615-72c10a86971b">
+        <input type="hidden" name="subject" value="New Booking Request - Whispering Wings">
+        <input type="hidden" name="from_name" value="Whispering Wings Website">
+        <input type="hidden" name="replyto" value="">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="name">Your Name *</label>
+            <input type="text" id="name" name="name" placeholder="Full name" required />
+          </div>
+          <div class="form-group">
+            <label for="phone">Phone / WhatsApp *</label>
+            <input type="tel" id="phone" name="phone" placeholder="+91 XXXXX XXXXX" required />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" name="email" placeholder="your@email.com" />
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="checkin">Check-In Date *</label>
+            <input type="date" id="checkin" name="checkin" required />
+          </div>
+          <div class="form-group">
+            <label for="checkout">Check-Out Date *</label>
+            <input type="date" id="checkout" name="checkout" required />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="guests">Number of Guests</label>
+            <select id="guests" name="guests">
+              <option>1 Guest</option>
+              <option selected>2 Guests</option>
+              <option>3 Guests</option>
+              <option>4 Guests</option>
+              <option>5+ Guests</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="room">Room Preference</label>
+            <select id="room" name="room">
+              <option>No Preference</option>
+              <option>Mountain View Deluxe</option>
+              <option>Family Suite</option>
+              <option>Garden Cottage</option>
+              <option>Forest View Room</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="message">Special Requests / Questions</label>
+          <textarea id="message" name="message" placeholder="Tell us about your trip — dietary requirements, celebration, activities you'd like, how you heard about us..."></textarea>
+        </div>
+        <button type="submit" class="btn-primary submit-btn" style="width:100%;">Send Booking Request ✉️</button>
+        <div class="form-success">✅ Thank you! We've received your request and will WhatsApp/call you within a few hours to confirm your booking.</div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     OPENSTREETMAP — replace lat/lng with your real coords
+     Current placeholder: Himalayan foothills, Uttarakhand
+     ═══════════════════════════════════════════════ -->
+<section class="map-section">
+  <div id="homestay-map"></div>
+
+  <div class="map-info-card">
+    <span class="eyebrow">Find Us</span>
+    <h3>Whispering Wings Homestay</h3>
+    <p>
+      [Village Name], [District]<br>
+      [State] — India
+    </p>
+    <a
+      class="map-directions-btn"
+      href="https://www.openstreetmap.org/directions?to=30.3165,78.0322"
+      target="_blank"
+      rel="noopener"
+    >
+      🗺️ Get Directions
+    </a>
+  </div>
+</section>
+
+<!-- HOW TO GET HERE -->
+<section class="section section-alt">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-eyebrow">Getting Here</span>
+      <h2 class="section-title">How to Reach Us</h2>
+    </div>
+    <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:2rem; max-width:1000px; margin:0 auto;" class="reveal">
+      <div class="amenity-card">
+        <div class="amenity-icon">🚂</div>
+        <h3>By Train</h3>
+        <p style="font-size:0.87rem;color:var(--text-light);">Nearest railway station: <strong>[Station Name]</strong> — XX km away. We can arrange pickup from the station.</p>
+      </div>
+      <div class="amenity-card">
+        <div class="amenity-icon">✈️</div>
+        <h3>By Air</h3>
+        <p style="font-size:0.87rem;color:var(--text-light);">Nearest airport: <strong>[Airport Name]</strong> — XX km away. Taxi and cab services available.</p>
+      </div>
+      <div class="amenity-card">
+        <div class="amenity-icon">🚗</div>
+        <h3>By Road</h3>
+        <p style="font-size:0.87rem;color:var(--text-light);">Well-connected by road from [Nearest City] — approximately X hours drive. Ample parking on site.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-eyebrow">Common Questions</span>
+      <h2 class="section-title">FAQs</h2>
+    </div>
+    <div style="max-width:800px;margin:0 auto;display:flex;flex-direction:column;gap:1rem;" class="reveal">
+      <details style="border:1px solid var(--border);border-radius:4px;padding:1.25rem;cursor:pointer;">
+        <summary style="font-weight:500;font-size:0.95rem;list-style:none;display:flex;justify-content:space-between;align-items:center;">Is breakfast included in the room rate? <span>+</span></summary>
+        <p style="margin-top:1rem;font-size:0.87rem;color:var(--text-light);">Yes! Complimentary breakfast is included with all room bookings. Lunch and dinner are available at additional cost and must be requested in advance.</p>
+      </details>
+      <details style="border:1px solid var(--border);border-radius:4px;padding:1.25rem;cursor:pointer;">
+        <summary style="font-weight:500;font-size:0.95rem;list-style:none;display:flex;justify-content:space-between;align-items:center;">What is the best season to visit? <span>+</span></summary>
+        <p style="margin-top:1rem;font-size:0.87rem;color:var(--text-light);">The homestay is beautiful year-round. [Season 1] offers [description]. [Season 2] is ideal for [description]. We recommend avoiding [heavy monsoon period] for trekking.</p>
+      </details>
+      <details style="border:1px solid var(--border);border-radius:4px;padding:1.25rem;cursor:pointer;">
+        <summary style="font-weight:500;font-size:0.95rem;list-style:none;display:flex;justify-content:space-between;align-items:center;">Can we accommodate special dietary needs? <span>+</span></summary>
+        <p style="margin-top:1rem;font-size:0.87rem;color:var(--text-light);">Absolutely. Please inform us of any dietary requirements when booking and our hosts will make sure every meal is prepared accordingly.</p>
+      </details>
+      <details style="border:1px solid var(--border);border-radius:4px;padding:1.25rem;cursor:pointer;">
+        <summary style="font-weight:500;font-size:0.95rem;list-style:none;display:flex;justify-content:space-between;align-items:center;">Is the property suitable for children and elderly guests? <span>+</span></summary>
+        <p style="margin-top:1rem;font-size:0.87rem;color:var(--text-light);">Yes, very much so. We love having families. We can provide cribs, extra blankets, ground-floor rooms for elderly guests, and gentler activities for all age groups.</p>
+      </details>
+      <details style="border:1px solid var(--border);border-radius:4px;padding:1.25rem;cursor:pointer;">
+        <summary style="font-weight:500;font-size:0.95rem;list-style:none;display:flex;justify-content:space-between;align-items:center;">What is your cancellation policy? <span>+</span></summary>
+        <p style="margin-top:1rem;font-size:0.87rem;color:var(--text-light);">We understand plans change. Cancellations made 7+ days in advance receive a full refund. Within 7 days, we retain 50% of the booking amount. Please contact us directly for special circumstances — we are always flexible and understanding.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand"><div class="logo">Whispering Wings <span>Homestay</span></div><p>A family-run mountain retreat where every sunrise tells a story.</p><div class="social-links"><a href="#" class="social-link">📸</a><a href="#" class="social-link">📘</a><a href="#" class="social-link">▶️</a><a href="#" class="social-link">💬</a></div></div>
+    <div class="footer-col"><h4>Quick Links</h4><ul><li><a href="index.html">Home</a></li><li><a href="about.html">About Us</a></li><li><a href="rooms.html">Rooms</a></li><li><a href="gallery.html">Gallery</a></li><li><a href="amenities.html">Amenities</a></li></ul></div>
+    <div class="footer-col"><h4>Explore</h4><ul>
+      <!-- <li><a href="reviews.html">Reviews</a></li> -->
+      <li><a href="activities.html">Activities</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+    <div class="footer-col footer-newsletter"><h4>Contact</h4><p>We'd love to host you.</p><div style="margin-top:1rem;font-size:0.85rem;line-height:2.2;"><div>📍 Village, District, State, India</div><div>📞 <a href="tel:+919999999999" style="color:var(--gold-light);">+91 99999 99999</a></div><div>✉️ <a href="mailto:hello@serenevalley.in" style="color:var(--gold-light);">hello@serenevalley.in</a></div></div></div>
+  </div>
+  <div class="footer-bottom"><p>© 2026 Whispering Wings Homestay. All rights reserved. Designed by Tripyzen Hospitality Solutions.</p><div class="footer-bottom-links"><a href="#">Privacy Policy</a><a href="#">Terms of Stay</a></div></div>
+</footer>
+
+<div class="float-actions">
+  <a href="https://wa.me/919999999999" class="float-wa" target="_blank">💬</a>
+  <a href="tel:+919999999999" class="float-call">📞</a>
+</div>
+
+<script src="js/main.js"></script>
+
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+  // ─────────────────────────────────────────────
+  // 📍 UPDATE THESE COORDINATES TO YOUR REAL LOCATION
+  //    Example below: Rishikesh area, Uttarakhand
+  // ─────────────────────────────────────────────
+  const LAT  = 30.3165;
+  const LNG  = 78.0322;
+  const ZOOM = 13;
+
+  // Custom forest-green pin using SVG
+  const pinIcon = L.divIcon({
+    className: '',
+    html: `
+      <svg width="38" height="52" viewBox="0 0 38 52" xmlns="http://www.w3.org/2000/svg">
+        <filter id="drop-shadow">
+          <feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="rgba(44,74,62,0.35)"/>
+        </filter>
+        <g filter="url(#drop-shadow)">
+          <path d="M19 2C10.716 2 4 8.716 4 17c0 11.25 15 31 15 31s15-19.75 15-31C34 8.716 27.284 2 19 2z"
+                fill="#2C4A3E" stroke="white" stroke-width="1.5"/>
+        </g>
+        <circle cx="19" cy="17" r="6.5" fill="white" opacity="0.95"/>
+        <text x="19" y="21" text-anchor="middle" font-size="9" fill="#2C4A3E">🌿</text>
+      </svg>`,
+    iconSize:   [38, 52],
+    iconAnchor: [19, 52],
+    popupAnchor:[0, -54]
+  });
+
+  // Initialise map
+  const map = L.map('homestay-map', {
+    center: [LAT, LNG],
+    zoom:    ZOOM,
+    zoomControl: false,
+    scrollWheelZoom: false
+  });
+
+  // Zoom control — bottom right, away from the info card
+  L.control.zoom({ position: 'bottomright' }).addTo(map);
+
+  // OpenStreetMap tile layer (free, no API key needed)
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    maxZoom: 19
+  }).addTo(map);
+
+  // Marker + popup
+  const marker = L.marker([LAT, LNG], { icon: pinIcon }).addTo(map);
+
+  marker.bindPopup(`
+    <div class="custom-popup">
+      <strong>🌿 Whispering Wings Homestay</strong>
+      <span>[Village Name], [District], [State]</span>
+    </div>
+  `, {
+    offset: [0, -4],
+    maxWidth: 220
+  });
+
+  // Open popup by default
+  marker.openPopup();
+
+  // Re-enable scroll zoom only after user clicks the map
+  map.once('click', () => map.scrollWheelZoom.enable());
+</script>
+
+<script>
+  const form = document.querySelector(".contact-form");
+  const successMsg = document.querySelector(".form-success");
+
+  form.addEventListener("submit", async function(e) {
+    e.preventDefault();
+
+    const formData = new FormData(form);
+
+    const response = await fetch(form.action, {
+      method: "POST",
+      body: formData
+    });
+
+    if (response.ok) {
+      successMsg.style.display = "block";
+      form.reset();
+    } else {
+      alert("Something went wrong. Please try again.");
+    }
+  });
+</script>
+</body>
+</html>

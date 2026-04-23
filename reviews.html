@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Guest Reviews — Whispering Wings Homestay</title>
+  <meta name="description" content="Read what our guests say about Whispering Wings Homestay — honest testimonials from families, couples, and solo travellers." />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌿</text></svg>" />
+  <style>
+    .review-platforms { display:flex; gap:2rem; justify-content:center; flex-wrap:wrap; margin-bottom:4rem; }
+    .platform-badge { background:var(--white); border:1px solid var(--border); border-radius:8px; padding:1.5rem 2.5rem; text-align:center; box-shadow:0 4px 16px var(--shadow); min-width:160px; }
+    .platform-badge .p-name { font-size:0.75rem; font-weight:500; letter-spacing:0.1em; text-transform:uppercase; color:var(--text-light); margin-bottom:0.5rem; }
+    .platform-badge .p-score { font-family:'Cormorant Garamond',serif; font-size:2.5rem; color:var(--forest); line-height:1; }
+    .platform-badge .p-stars { color:var(--gold); font-size:0.85rem; margin:0.25rem 0; }
+    .platform-badge .p-count { font-size:0.72rem; color:var(--text-light); }
+    .reviews-masonry { columns:3; column-gap:1.5rem; max-width:1200px; margin:0 auto; }
+    .reviews-masonry .review-card { break-inside:avoid; margin-bottom:1.5rem; display:inline-block; width:100%; }
+    @media(max-width:900px){ .reviews-masonry { columns:2; } }
+    @media(max-width:600px){ .reviews-masonry { columns:1; } }
+    .leave-review { background:var(--forest); color:white; padding:4rem 5%; text-align:center; }
+    .leave-review h2 { color:white; font-size:2.5rem; margin-bottom:1rem; }
+    .leave-review p { color:rgba(255,255,255,0.7); max-width:500px; margin:0 auto 2rem; }
+    .platform-links { display:flex; gap:1.5rem; justify-content:center; flex-wrap:wrap; }
+    .platform-link { background:rgba(255,255,255,0.1); color:white; padding:12px 28px; border-radius:2px; font-size:0.82rem; font-weight:500; letter-spacing:0.1em; transition:background 0.2s; border:1px solid rgba(255,255,255,0.2); }
+    .platform-link:hover { background:rgba(255,255,255,0.2); }
+  </style>
+</head>
+<body>
+
+<nav class="nav" id="main-nav">
+  <a href="index.html" class="nav-logo">Whispering Wings <span>Homestay</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li><li><a href="about.html">About</a></li>
+    <li><a href="rooms.html">Rooms</a></li><li><a href="gallery.html">Gallery</a></li>
+    <li><a href="amenities.html">Amenities</a></li><li><a href="reviews.html">Reviews</a></li>
+    <li><a href="activities.html">Activities</a></li>
+    <li><a href="contact.html" class="nav-cta">Book Now</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+</nav>
+<div class="mobile-menu" id="mobile-menu">
+  <a href="index.html">Home</a><a href="about.html">About</a><a href="rooms.html">Rooms</a>
+  <a href="gallery.html">Gallery</a><a href="amenities.html">Amenities</a>
+  <a href="reviews.html">Reviews</a><a href="activities.html">Activities</a>
+  <a href="contact.html" class="mobile-cta">Book Now</a>
+</div>
+
+<section class="page-hero-section">
+  <div class="breadcrumb"><a href="index.html">Home</a> → Guest Reviews</div>
+  <h1>What Guests Say</h1>
+  <p>Over 200 happy guests have shared their experiences — and we are grateful for every single one</p>
+</section>
+
+<section class="section">
+  <div class="container">
+    <!-- PLATFORM RATINGS -->
+    <div class="review-platforms reveal">
+      <div class="platform-badge">
+        <div class="p-name">Google</div>
+        <div class="p-score">4.9</div>
+        <div class="p-stars">★★★★★</div>
+        <div class="p-count">150+ reviews</div>
+      </div>
+      <div class="platform-badge">
+        <div class="p-name">TripAdvisor</div>
+        <div class="p-score">4.8</div>
+        <div class="p-stars">★★★★★</div>
+        <div class="p-count">80+ reviews</div>
+      </div>
+      <div class="platform-badge">
+        <div class="p-name">Booking.com</div>
+        <div class="p-score">9.4</div>
+        <div class="p-stars">★★★★★</div>
+        <div class="p-count">60+ reviews</div>
+      </div>
+      <div class="platform-badge" style="background:var(--forest);border-color:var(--forest);">
+        <div class="p-name" style="color:rgba(255,255,255,0.6);">Overall</div>
+        <div class="p-score" style="color:var(--gold-light);">4.9</div>
+        <div class="p-stars">★★★★★</div>
+        <div class="p-count" style="color:rgba(255,255,255,0.5);">300+ reviews total</div>
+      </div>
+    </div>
+
+    <!-- REVIEWS MASONRY -->
+    <div class="reviews-masonry">
+      <div class="review-card reveal">
+        <div class="stars">★★★★★</div>
+        <p class="review-text">Absolutely magical. The views from our room took our breath away every single morning. The family was incredibly warm and the food was some of the best we have had anywhere in India. We will be back, and soon!</p>
+        <div class="review-author"><div class="reviewer-avatar">P</div><div><div class="reviewer-name">Priya & Rahul Sharma</div><div class="reviewer-location">📍 Mumbai · Family of 4</div></div></div>
+      </div>
+      <div class="review-card reveal">
+        <div class="stars">★★★★★</div>
+        <p class="review-text">We came for a weekend and stayed for five days. That should say it all. The hosts are extraordinary — thoughtful, knowledgeable, and genuinely happy to have you in their home. A hidden gem.</p>
+        <div class="review-author"><div class="reviewer-avatar">A</div><div><div class="reviewer-name">Arun Krishnamurthy</div><div class="reviewer-location">📍 Bangalore · Couple</div></div></div>
+      </div>
+      <div class="review-card reveal">
+        <div class="stars">★★★★★</div>
+        <p class="review-text">As a solo traveller, I was a little nervous, but within an hour I felt completely at home. The host family is welcoming, the food is incredible, and the morning walk they took me on was the highlight of my trip.</p>
+        <div class="review-author"><div class="reviewer-avatar">S</div><div><div class="reviewer-name">Sangeeta Menon</div><div class="reviewer-location">📍 Pune · Solo Traveller</div></div></div>
+      </div>
+      <div class="review-card reveal">
+        <div class="stars">★★★★★</div>
+        <p class="review-text">Perfect honeymoon destination. The Garden Cottage was so romantic and private — we woke up to birdsong and had tea in the garden each morning. The hosts gave us complete privacy but were always nearby if we needed anything. Highly recommend!</p>
+        <div class="review-author"><div class="reviewer-avatar">K</div><div><div class="reviewer-name">Kiran & Sneha Patel</div><div class="reviewer-location">📍 Ahmedabad · Newlyweds</div></div></div>
+      </div>
+      <div class="review-card reveal">
+        <div class="stars">★★★★☆</div>
+        <p class="review-text">A beautiful property with genuinely kind hosts. The food deserves its own review — the thali they serve for dinner had us going back for seconds and thirds. The road to get here is a bit tricky but absolutely worth it.</p>
+        <div class="review-author"><div class="reviewer-avatar">V</div><div><div class="reviewer-name">Vikram Nair</div><div class="reviewer-location">📍 Delhi · Group of 5</div></div></div>
+      </div>
+      <div class="review-card reveal">
+        <div class="stars">★★★★★</div>
+        <p class="review-text">Our three children absolutely loved it here — there was always something to do and see. The bonfire on our last night was the highlight of the trip. Our kids are already asking when we can come back!</p>
+        <div class="review-author"><div class="reviewer-avatar">M</div><div><div class="reviewer-name">Meena & Suresh Iyer</div><div class="reviewer-location">📍 Chennai · Family with 3 kids</div></div></div>
+      </div>
+      <div class="review-card reveal">
+        <div class="stars">★★★★★</div>
+        <p class="review-text">I work remotely and spent 10 days here. The WiFi was reliable, the room was comfortable and quiet, and having home-cooked food brought to me daily was a luxury I will miss dearly. Already looking at my calendar for a return trip.</p>
+        <div class="review-author"><div class="reviewer-avatar">R</div><div><div class="reviewer-name">Rhea D'Souza</div><div class="reviewer-location">📍 Goa · Digital Nomad</div></div></div>
+      </div>
+      <div class="review-card reveal">
+        <div class="stars">★★★★★</div>
+        <p class="review-text">The sunrise from the Mountain View room was something I will never forget. The hosts quietly left a flask of chai outside our door at 5:30 AM so we could watch it — that level of thoughtfulness is what makes this place exceptional.</p>
+        <div class="review-author"><div class="reviewer-avatar">N</div><div><div class="reviewer-name">Nikhil Joshi</div><div class="reviewer-location">📍 Hyderabad · Couple</div></div></div>
+      </div>
+      <div class="review-card reveal">
+        <div class="stars">★★★★★</div>
+        <p class="review-text">Travelling with elderly parents can be challenging but the hosts were so accommodating — they prepared softer meals, gave us a ground-floor room, and checked on my parents multiple times. Such a warm and considerate family.</p>
+        <div class="review-author"><div class="reviewer-avatar">T</div><div><div class="reviewer-name">Tarun Bhatia</div><div class="reviewer-location">📍 Chandigarh · With parents</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LEAVE A REVIEW -->
+<section class="leave-review">
+  <h2>Stayed With Us?</h2>
+  <p>We would love to hear about your experience. Share your review on any of these platforms and help other travellers discover Whispering Wings.</p>
+  <div class="platform-links">
+    <a href="https://g.page/YOURPLACEID/review" target="_blank" class="platform-link">⭐ Review on Google</a>
+    <a href="https://www.tripadvisor.in/YOURLINK" target="_blank" class="platform-link">🦉 TripAdvisor</a>
+    <a href="https://www.booking.com/YOURLINK" target="_blank" class="platform-link">🏨 Booking.com</a>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand"><div class="logo">Whispering Wings <span>Homestay</span></div><p>A family-run mountain retreat where every sunrise tells a story.</p><div class="social-links"><a href="#" class="social-link">📸</a><a href="#" class="social-link">📘</a><a href="#" class="social-link">▶️</a><a href="#" class="social-link">💬</a></div></div>
+    <div class="footer-col"><h4>Quick Links</h4><ul><li><a href="index.html">Home</a></li><li><a href="about.html">About Us</a></li><li><a href="rooms.html">Rooms</a></li><li><a href="gallery.html">Gallery</a></li><li><a href="amenities.html">Amenities</a></li></ul></div>
+    <div class="footer-col"><h4>Explore</h4><ul><li><a href="reviews.html">Reviews</a></li><li><a href="activities.html">Activities</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+    <div class="footer-col footer-newsletter"><h4>Contact</h4><p>Ready to book your stay?</p><a href="contact.html" class="btn-primary" style="display:inline-block;margin-top:0.5rem;">Book Now</a><div style="margin-top:1.5rem;font-size:0.82rem;line-height:2;"><div>📍 Village, District, State</div><div>📞 <a href="tel:+919999999999" style="color:var(--gold-light);">+91 99999 99999</a></div></div></div>
+  </div>
+  <div class="footer-bottom"><p>© 2026 Whispering Wings Homestay. All rights reserved. Designed by Tripyzen Hospitality Solutions.</p><div class="footer-bottom-links"><a href="#">Privacy Policy</a><a href="#">Terms</a></div></div>
+</footer>
+<div class="float-actions"><a href="https://wa.me/919999999999" class="float-wa" target="_blank">💬</a><a href="tel:+919999999999" class="float-call">📞</a></div>
+<script src="js/main.js"></script>
+</body>
+</html>
