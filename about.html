@@ -7,6 +7,106 @@
   <meta name="description" content="Meet the family behind Whispering Wings Homestay. Learn our story, our values, and why guests keep coming back year after year." />
   <link rel="stylesheet" href="css/style.css" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌿</text></svg>" />
+  <style>
+    /* ==================================================
+       ABOUT PAGE MOBILE FIXES
+       Solves:
+       1) Green empty space above/below image
+       2) Accent image overflowing right side
+    ================================================== */
+
+    /* Tablet + Mobile */
+    @media (max-width: 900px){
+
+      .about-grid{
+        grid-template-columns:1fr;
+        gap:3rem;
+        overflow:hidden;            /* prevents horizontal page scroll */
+      }
+
+      .about-visual{
+        position:relative;
+        width:100%;
+        overflow:hidden;
+      }
+
+      /* Main image wrapper */
+      .about-img-ph{
+        height:auto !important;     /* removes forced 560px height */
+        min-height:unset !important;
+        padding:0;
+        background:none;           /* remove green block */
+        display:block;
+        border-radius:4px;
+        overflow:hidden;
+      }
+
+      /* Main image itself */
+      .about-img-ph img{
+        display:block;
+        width:100%;
+        height:420px;
+        object-fit:cover;
+        object-position:center;
+      }
+
+      /* Accent image box */
+      .about-accent{
+        right:1rem;
+        bottom:1rem;
+        width:140px;
+        height:140px;
+        border-width:4px;
+        overflow:hidden;
+      }
+
+      .about-accent-ph,
+      .about-accent-ph img{
+        width:100%;
+        height:100%;
+      }
+
+      .about-accent-ph img{
+        object-fit:cover;
+        display:block;
+      }
+    }
+
+
+    /* Mobile */
+    @media (max-width: 700px){
+
+      .about-img-ph img{
+        height:340px;
+      }
+
+      .about-accent{
+        width:110px;
+        height:110px;
+        right:0.75rem;
+        bottom:0.75rem;
+      }
+
+    }
+
+
+    /* Small phones */
+    @media (max-width: 420px){
+
+      .about-img-ph img{
+        height:280px;
+      }
+
+      .about-accent{
+        width:92px;
+        height:92px;
+        right:0.5rem;
+        bottom:0.5rem;
+      }
+
+    }
+
+  </style>
 </head>
 <body>
 
@@ -110,69 +210,6 @@
     </div>
   </div>
 </section>
-
-<!-- TEAM / HOSTS -->
-<!-- <section class="section">
-  <div class="container">
-    <div class="section-header reveal">
-      <span class="section-eyebrow">Meet the Hosts</span>
-      <h2 class="section-title">The Faces Behind Your Stay</h2>
-    </div>
-    <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:2rem; max-width:900px; margin:0 auto;">
-      <div class="review-card reveal" style="text-align:center; padding:2.5rem 1.5rem;">
-        <div style="width:100px;height:100px;border-radius:50%;background:var(--sage-light);margin:0 auto 1.25rem;display:flex;align-items:center;justify-content:center;font-size:2.5rem;overflow:hidden;">
-          <div style="color:var(--forest);">👩</div>
-        </div>
-        <h3 style="font-size:1.4rem;margin-bottom:0.25rem;">[Host Name]</h3>
-        <p style="font-size:0.75rem;color:var(--gold);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.75rem;">Head of Hospitality</p>
-        <p style="font-size:0.85rem;color:var(--text-light);line-height:1.7;">The heart of the homestay. Manages everything from bookings to breakfast — always with a warm smile.</p>
-        <p style="font-size:0.72rem;color:var(--text-light);margin-top:0.75rem;font-style:italic;">Add your host's photo here</p>
-      </div>
-      <div class="review-card reveal" style="text-align:center; padding:2.5rem 1.5rem;">
-        <div style="width:100px;height:100px;border-radius:50%;background:var(--sage-light);margin:0 auto 1.25rem;display:flex;align-items:center;justify-content:center;font-size:2.5rem;">
-          <div style="color:var(--forest);">👨</div>
-        </div>
-        <h3 style="font-size:1.4rem;margin-bottom:0.25rem;">[Partner Name]</h3>
-        <p style="font-size:0.75rem;color:var(--gold);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.75rem;">Trek Guide & Cook</p>
-        <p style="font-size:0.85rem;color:var(--text-light);line-height:1.7;">An expert on local trails and an even better cook. His stories around the bonfire are unforgettable.</p>
-        <p style="font-size:0.72rem;color:var(--text-light);margin-top:0.75rem;font-style:italic;">Add your host's photo here</p>
-      </div>
-      <div class="review-card reveal" style="text-align:center; padding:2.5rem 1.5rem;">
-        <div style="width:100px;height:100px;border-radius:50%;background:var(--sage-light);margin:0 auto 1.25rem;display:flex;align-items:center;justify-content:center;font-size:2.5rem;">
-          <div style="color:var(--forest);">🧒</div>
-        </div>
-        <h3 style="font-size:1.4rem;margin-bottom:0.25rem;">[Family Member]</h3>
-        <p style="font-size:0.75rem;color:var(--gold);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.75rem;">Guest Relations</p>
-        <p style="font-size:0.85rem;color:var(--text-light);line-height:1.7;">The youngest and most enthusiastic member of the team — always ready to recommend a hidden gem trail.</p>
-        <p style="font-size:0.72rem;color:var(--text-light);margin-top:0.75rem;font-style:italic;">Add your host's photo here</p>
-      </div>
-    </div>
-  </div>
-</section> -->
-
-<!-- PHOTO COLLAGE -->
-<!-- <section class="section section-alt">
-  <div class="container">
-    <div class="section-header reveal">
-      <span class="section-eyebrow">Our Home</span>
-      <h2 class="section-title">A Glimpse Into Our World</h2>
-    </div>
-    <div style="display:grid; grid-template-columns: repeat(4, 1fr); gap:1rem; max-width:1100px; margin:0 auto;">
-      <div style="height:200px;border-radius:4px;overflow:hidden;background:linear-gradient(135deg,var(--sage-light),var(--sage));display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.5rem;color:var(--forest);">
-        <span style="font-size:2rem;opacity:0.5;">🌺</span><p style="font-size:0.72rem;opacity:0.55;letter-spacing:0.06em;">GARDEN PHOTO</p>
-      </div>
-      <div style="height:200px;border-radius:4px;overflow:hidden;background:linear-gradient(135deg,var(--sage),var(--forest-light));display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.5rem;color:white;">
-        <span style="font-size:2rem;opacity:0.5;">🍳</span><p style="font-size:0.72rem;opacity:0.55;letter-spacing:0.06em;">KITCHEN PHOTO</p>
-      </div>
-      <div style="height:200px;border-radius:4px;overflow:hidden;background:linear-gradient(135deg,var(--gold-light),var(--gold));display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.5rem;color:white;">
-        <span style="font-size:2rem;opacity:0.5;">🌄</span><p style="font-size:0.72rem;opacity:0.55;letter-spacing:0.06em;">SUNRISE PHOTO</p>
-      </div>
-      <div style="height:200px;border-radius:4px;overflow:hidden;background:linear-gradient(135deg,var(--forest-light),var(--charcoal));display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.5rem;color:white;">
-        <span style="font-size:2rem;opacity:0.5;">🔥</span><p style="font-size:0.72rem;opacity:0.55;letter-spacing:0.06em;">BONFIRE PHOTO</p>
-      </div>
-    </div>
-  </div>
-</section> -->
 
 <!-- FOOTER -->
 <footer>
