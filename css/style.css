@@ -882,3 +882,57 @@ footer {
     grid-template-columns: 1fr 1fr; /* keep side-by-side thumbnails but shorter */
   }
 }
+
+
+/* ===========================
+   MOBILE FOOTER 2-COLUMN FIX
+   Keep desktop layout same
+=========================== */
+
+@media (max-width: 700px){
+
+  .footer-grid{
+    display:grid;
+    grid-template-columns:repeat(2, 1fr);
+    gap:2rem 1.5rem;
+    align-items:start;
+  }
+
+  .footer-brand{
+    grid-column:1 / -1;   /* full width top */
+  }
+
+  .footer-col{
+    width:100%;
+  }
+
+  .footer-newsletter{
+    grid-column:1 / -1;   /* full width bottom */
+  }
+
+  .footer-bottom{
+    flex-direction:column;
+    text-align:center;
+    gap:0.75rem;
+  }
+
+}
+
+/* Extra small phones */
+@media (max-width: 420px){
+
+  .footer-grid{
+    gap:1.5rem 1rem;
+  }
+
+  .footer-col h4{
+    margin-bottom:1rem;
+  }
+
+  .footer-col ul li a,
+  .footer-newsletter p,
+  .footer-bottom p{
+    font-size:0.8rem;
+  }
+
+}
