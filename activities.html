@@ -156,6 +156,18 @@
     }
     .silk-route-banner .btn-gold:hover { background: #a87830; }
 
+    .silk-route-banner::before{
+      pointer-events:none;
+      z-index:0;
+    }
+
+    .silk-route-banner h2,
+    .silk-route-banner p,
+    .silk-route-banner .btn-gold{
+      position:relative;
+      z-index:1;
+    }
+
     /* ─── BEST TIME STRIP ─── */
     .best-time-strip {
       background: #faf8f4;
