@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Birdwatching in Padamchen — Whispering Wings</title>
+  <meta name="description" content="Discover world-class birdwatching in Padamchen, Sikkim. Over 300 Himalayan species await — from the Fire-tailed Sunbird to the rare Satyr Tragopan." />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌿</text></svg>" />
+
+  <style>
+    /* =====================================================
+       BIRDWATCHING PAGE — LAYOUT & RESPONSIVE FIXES
+       Mirrors about.html structure exactly.
+    ===================================================== */
+
+    /* ── Page hero override: earthy forest green ── */
+    .page-hero-section {
+      background: linear-gradient(135deg, #1a3a2a 0%, #2d5a3d 60%, #1e4a30 100%);
+    }
+
+    /* ── Video embed block ── */
+    .video-wrap {
+      position: relative;
+      width: 100%;
+      max-width: 340px;
+      margin: 0 auto;
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.22);
+      background: #000;
+      aspect-ratio: 9 / 16;
+    }
+    .video-wrap iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    /* ── Video section layout ── */
+    .video-section-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+    .video-text-col {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+    .video-text-col p {
+      color: var(--text-muted, #555);
+      line-height: 1.8;
+    }
+
+    /* ── Bird species highlight pills ── */
+    .species-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin: 1rem 0;
+    }
+    .species-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: #f0f7f2;
+      color: #1e5c36;
+      border: 1px solid #b8dcc5;
+      border-radius: 999px;
+      padding: 0.35rem 0.9rem;
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+    }
+    .species-pill::before {
+      content: "🐦";
+      font-size: 0.9rem;
+    }
+
+    /* ── Season badge ── */
+    .season-badge {
+      display: inline-block;
+      background: #fef9ec;
+      color: #7a5a00;
+      border: 1px solid #f0d47a;
+      border-radius: 6px;
+      padding: 0.25rem 0.75rem;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    /* ── Stat bar (quick facts) ── */
+    .quick-facts {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin: 3rem 0 0;
+      padding: 2rem;
+      background: #f7fbf8;
+      border: 1px solid #d0eadb;
+      border-radius: 12px;
+    }
+    .quick-fact {
+      text-align: center;
+    }
+    .quick-fact .qf-number {
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: #1e5c36;
+      line-height: 1;
+      display: block;
+    }
+    .quick-fact .qf-label {
+      font-size: 0.78rem;
+      color: #666;
+      margin-top: 0.4rem;
+      display: block;
+      letter-spacing: 0.03em;
+    }
+
+    /* ── About-grid mirror for bird intro section ── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+    .about-img-ph {
+      border-radius: 12px;
+      overflow: hidden;
+      background: #e8f5ec;
+      position: relative;
+    }
+    .about-img-ph img {
+      display: block;
+      width: 100%;
+      height: 460px;
+      object-fit: cover;
+    }
+    .about-accent {
+      position: absolute;
+      right: 1.25rem;
+      bottom: 1.25rem;
+      width: 160px;
+      height: 160px;
+      border-radius: 12px;
+      border: 4px solid #fff;
+      overflow: hidden;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+    }
+    .about-accent-ph, .about-accent-ph img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* ── Bird image placeholder (before real photos) ── */
+    .bird-img-placeholder {
+      width: 100%;
+      height: 460px;
+      background: linear-gradient(160deg, #d6eedd 0%, #b2d9c0 50%, #8cbfa3 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      border-radius: 12px;
+    }
+    .bird-img-placeholder .ph-bird-emoji {
+      font-size: 6rem;
+      line-height: 1;
+    }
+    .bird-img-placeholder p {
+      color: #2d5a3d;
+      font-size: 0.85rem;
+      opacity: 0.7;
+      text-align: center;
+      padding: 0 1rem;
+    }
+
+    /* ── Tablet ── */
+    @media (max-width: 900px) {
+      .about-grid,
+      .video-section-inner {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+      }
+      .about-img-ph img,
+      .bird-img-placeholder {
+        height: 340px;
+      }
+      .about-accent {
+        width: 120px;
+        height: 120px;
+      }
+      .video-wrap {
+        max-width: 280px;
+      }
+      .quick-facts {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+        padding: 1.25rem;
+      }
+    }
+
+    /* ── Mobile ── */
+    @media (max-width: 700px) {
+      .about-img-ph img,
+      .bird-img-placeholder {
+        height: 280px;
+      }
+      .about-accent {
+        width: 96px;
+        height: 96px;
+        right: 0.75rem;
+        bottom: 0.75rem;
+        border-width: 3px;
+      }
+      .quick-facts {
+        grid-template-columns: 1fr 1fr;
+      }
+      .quick-fact:last-child {
+        grid-column: 1 / -1;
+      }
+      .video-wrap {
+        max-width: 240px;
+      }
+    }
+
+    /* ── Small phones ── */
+    @media (max-width: 420px) {
+      .about-img-ph img,
+      .bird-img-placeholder {
+        height: 240px;
+      }
+      .about-accent {
+        width: 80px;
+        height: 80px;
+        right: 0.5rem;
+        bottom: 0.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ════════════════════════ NAVBAR ════════════════════════ -->
+<nav class="nav" id="main-nav">
+  <a href="index.html" class="nav-logo">Whispering Wings <span>Padamchen</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="rooms.html">Rooms</a></li>
+    <li><a href="gallery.html">Gallery</a></li>
+    <li><a href="amenities.html">Amenities</a></li>
+    <li><a href="activities.html">Activities</a></li>
+    <li><a href="contact.html" class="nav-cta">Book Now</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+</nav>
+<div class="mobile-menu" id="mobile-menu">
+  <a href="index.html">Home</a>
+  <a href="about.html">About</a>
+  <a href="rooms.html">Rooms</a>
+  <a href="gallery.html">Gallery</a>
+  <a href="amenities.html">Amenities</a>
+  <a href="activities.html">Activities</a>
+  <a href="contact.html" class="mobile-cta">Book Now</a>
+</div>
+
+
+<!-- ════════════════════════ PAGE HERO ════════════════════════ -->
+<section class="page-hero-section">
+  <div class="breadcrumb"><a href="index.html">Home</a> → <a href="activities.html">Activities</a> → Birdwatching</div>
+  <h1>Birdwatching in Padamchen</h1>
+  <p>Where the Himalayas sing — discover one of Sikkim's finest birding destinations right from our doorstep</p>
+</section>
+
+
+<!-- ════════════════════════ INTRO STORY ════════════════════════ -->
+<section class="section">
+  <div class="about-grid container">
+
+    <!-- Visual column -->
+    <div class="about-visual reveal">
+      <div class="about-img-ph" style="height:460px;">
+        <!--
+          Replace with a real bird/forest photo:
+          <img src="images/birdwatching-padamchen.jpg" alt="Birdwatching in the forests of Padamchen, Sikkim" />
+        -->
+        <div class="bird-img-placeholder">
+          <span class="ph-bird-emoji">🦅</span>
+          <p>ADD A BIRDWATCHING PHOTO HERE<br><small>A misty forest trail or a colourful bird on a branch works beautifully</small></p>
+        </div>
+      </div>
+      <div class="about-accent">
+        <div class="about-accent-ph">
+          <!--
+            Replace with a close-up bird photo:
+            <img src="images/bird-closeup.jpg" alt="Himalayan bird close-up" />
+          -->
+          <div style="width:100%;height:100%;background:linear-gradient(135deg,#b2d9c0,#5a9e78);display:flex;align-items:center;justify-content:center;font-size:2.5rem;">🦜</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Content column -->
+    <div class="about-content reveal">
+      <span class="section-eyebrow">A Birder's Paradise</span>
+      <h2>Step Outside and Listen</h2>
+      <p>At Whispering Wings Padamchen, you do not need to travel far to encounter extraordinary birds. The forests, gardens, and misty ridgelines surrounding our homestay are home to an astonishing variety of Himalayan and sub-Himalayan species — many of which you can spot right from your bedroom window with your morning tea.</p>
+      <p>Padamchen sits at a remarkable elevation sweet spot where lowland subtropical species overlap with high-altitude Himalayan birds, making it one of East Sikkim's most rewarding and accessible birding locations. Experienced birders and curious first-timers alike consistently return surprised by how much they see in a single morning walk.</p>
+      <p>Our family has grown up watching these birds for generations. We know the seasonal visitors, the resident nesters, and the dawn chorus that rolls through the valley like a living symphony. We love sharing all of this with our guests.</p>
+
+      <div class="species-list">
+        <span class="species-pill">Fire-tailed Sunbird</span>
+        <span class="species-pill">Satyr Tragopan</span>
+        <span class="species-pill">Verditer Flycatcher</span>
+        <span class="species-pill">Rufous-bellied Niltava</span>
+        <span class="species-pill">Himalayan Bulbul</span>
+        <span class="species-pill">Grey-winged Blackbird</span>
+        <span class="species-pill">Blue-fronted Robin</span>
+        <span class="species-pill">Chestnut-crowned Laughingthrush</span>
+      </div>
+
+      <a href="contact.html" class="btn-primary" style="margin-top:1.5rem;">Plan Your Birding Stay</a>
+    </div>
+  </div>
+
+  <!-- Quick stats bar -->
+  <div class="container">
+    <div class="quick-facts reveal">
+      <div class="quick-fact">
+        <span class="qf-number">300+</span>
+        <span class="qf-label">Bird species recorded in the Padamchen region</span>
+      </div>
+      <div class="quick-fact">
+        <span class="qf-number">1,800m</span>
+        <span class="qf-label">Elevation — perfect overlap zone for Himalayan species</span>
+      </div>
+      <div class="quick-fact">
+        <span class="qf-number">4 hrs</span>
+        <span class="qf-label">Typical morning session to spot 30–50 species</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════ VIDEO SECTION ════════════════════════ -->
+<section class="section section-alt">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-eyebrow">See It for Yourself</span>
+      <h2 class="section-title">Caught on Camera at Whispering Wings</h2>
+      <p class="section-subtitle">We filmed this short right here in our garden and on the trails just minutes from the homestay — this is what a typical morning looks like</p>
+    </div>
+
+    <div class="video-section-inner">
+
+      <!-- Video embed -->
+      <div style="display:flex;justify-content:center;" class="reveal">
+        <div class="video-wrap">
+          <!-- YouTube Shorts embed — auto-plays muted for a reel-style feel -->
+          <iframe
+            src="https://www.youtube.com/embed/054qEO-hyhs?rel=0&modestbranding=1"
+            title="Birdwatching at Whispering Wings Padamchen, Sikkim"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+            loading="lazy"
+          ></iframe>
+        </div>
+      </div>
+
+      <!-- Text beside the video -->
+      <div class="video-text-col reveal">
+        <span class="season-badge">🎬 Shot on location · Padamchen 2025</span>
+        <h3 style="font-size:1.55rem;line-height:1.35;margin:0;">A single morning. A dozen species. No expertise required.</h3>
+        <p>This short film was captured entirely within walking distance of our homestay. What you see — the mist, the colours, the birdsong — is an ordinary morning here. Extraordinary for visitors, but simply daily life in Padamchen.</p>
+        <p>You do not need expensive gear or years of experience. We provide binoculars, route suggestions, and our own local knowledge so every guest can enjoy this experience regardless of their birding background.</p>
+        <p>Watch the full video on YouTube and see the kind of morning that awaits you.</p>
+        <a href="https://www.youtube.com/shorts/054qEO-hyhs" target="_blank" rel="noopener" class="btn-primary" style="display:inline-block;width:fit-content;">Watch on YouTube ↗</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════ WHY PADAMCHEN ════════════════════════ -->
+<section class="section">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-eyebrow">Why Come Here</span>
+      <h2 class="section-title">What Makes Padamchen Special for Birders</h2>
+      <p class="section-subtitle">Six reasons serious birders and casual nature lovers keep putting Padamchen on their list</p>
+    </div>
+
+    <div class="amenities-grid">
+      <div class="amenity-card reveal">
+        <div class="amenity-icon">🌫️</div>
+        <h3>Undisturbed Forest Cover</h3>
+        <p>Padamchen retains large tracts of intact mixed broadleaf and rhododendron forest. This continuity of habitat means species that have disappeared from degraded areas elsewhere still thrive here in healthy numbers.</p>
+      </div>
+      <div class="amenity-card reveal">
+        <div class="amenity-icon">🔭</div>
+        <h3>Easy Access from the Homestay</h3>
+        <p>You do not need a jeep or a long drive. The best birding trails begin within five minutes of walking from our front gate. Early morning, before breakfast, is when the forest is at its most alive.</p>
+      </div>
+      <div class="amenity-card reveal">
+        <div class="amenity-icon">📅</div>
+        <h3>Year-Round Birding</h3>
+        <p>Every season brings different rewards. Winter draws rare Himalayan visitors down from altitude. Spring explosion of rhododendron blossom attracts sunbirds and flowerpeckers. Monsoon reveals skulking warblers and laughingthrushes.</p>
+      </div>
+      <div class="amenity-card reveal">
+        <div class="amenity-icon">🧭</div>
+        <h3>Local Knowledge on Tap</h3>
+        <p>Our family has watched these birds across generations. We know which tree the Satyr Tragopan favours in October, and which ridge the Blue-fronted Robin returns to every spring. That knowledge is yours to use during your stay.</p>
+      </div>
+      <div class="amenity-card reveal">
+        <div class="amenity-icon">🤫</div>
+        <h3>Peaceful, Uncrowded Trails</h3>
+        <p>Unlike popular birding destinations in Darjeeling or West Sikkim, Padamchen trails remain quiet. No tour buses, no crowds. Just you, the forest, and the birds — exactly the way great birding should be.</p>
+      </div>
+      <div class="amenity-card reveal">
+        <div class="amenity-icon">📷</div>
+        <h3>Perfect for Wildlife Photography</h3>
+        <p>The soft morning light filtering through the canopy, birds at eye level on flowering trees, close approach distances — Padamchen consistently delivers the kind of shots that win competitions and fill highlight reels.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════ BEST SEASONS ════════════════════════ -->
+<section class="section section-alt">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-eyebrow">When to Visit</span>
+      <h2 class="section-title">Best Seasons for Birdwatching</h2>
+      <p class="section-subtitle">Every season has its own magic — here is what to expect throughout the year</p>
+    </div>
+    <div class="amenities-grid">
+      <div class="amenity-card reveal">
+        <div class="amenity-icon">🌸</div>
+        <h3>Spring (March – May)</h3>
+        <p>The absolute peak season. Rhododendrons are in full bloom, migration is at its peak, and resident birds are nesting and singing their most colourful songs. Sunbirds, flycatchers, and minivets are everywhere.</p>
+      </div>
+      <div class="amenity-card reveal">
+        <div class="amenity-icon">🌿</div>
+        <h3>Monsoon (June – September)</h3>
+        <p>A surprisingly good time for the patient birder. Skulking warblers, babblers, and laughingthrushes are active. The lush green forest is atmospheric and beautiful. Leech socks recommended!</p>
+      </div>
+      <div class="amenity-card reveal">
+        <div class="amenity-icon">🍂</div>
+        <h3>Autumn (October – November)</h3>
+        <p>Crisp clear skies, spectacular mountain views, and post-monsoon migrants moving through. An excellent time for raptors and high-altitude species coming down. Very comfortable temperatures for long trail walks.</p>
+      </div>
+      <div class="amenity-card reveal">
+        <div class="amenity-icon">❄️</div>
+        <h3>Winter (December – February)</h3>
+        <p>Rare Himalayan winter visitors such as Redstarts, Robins, and Rosefinches descend to lower elevations. The forest is quiet and visibility through the bare branches is exceptional. A serene and underrated season.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════ CTA STRIP ════════════════════════ -->
+<section class="section" style="text-align:center;padding-bottom:4rem;">
+  <div class="container reveal">
+    <span class="section-eyebrow">Ready to Come?</span>
+    <h2 class="section-title" style="margin-bottom:1rem;">Book Your Birding Retreat</h2>
+    <p style="max-width:580px;margin:0 auto 2rem;color:var(--text-muted,#555);line-height:1.8;">
+      Whether you are a seasoned birder with a life list to chase or someone who simply loves the sound of a forest waking up — Padamchen will exceed your expectations. Come stay with us and see for yourself.
+    </p>
+    <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+      <a href="contact.html" class="btn-primary">Book a Room</a>
+      <a href="activities.html" class="btn-secondary" style="display:inline-block;">See All Activities</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════ FOOTER ════════════════════════ -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="logo">Whispering Wings <span>Padamchen</span></div>
+      <p>A family-run mountain retreat where every sunrise tells a story and every guest becomes part of ours.</p>
+      <div class="social-links">
+        <a href="#" class="social-link">📸</a>
+        <a href="#" class="social-link">📘</a>
+        <a href="#" class="social-link">▶️</a>
+        <a href="#" class="social-link">💬</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="rooms.html">Rooms</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Explore</h4>
+      <ul>
+        <li><a href="amenities.html">Amenities</a></li>
+        <li><a href="activities.html">Activities</a></li>
+        <li><a href="birdwatching.html">Birdwatching</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="contact.html">Book a Room</a></li>
+      </ul>
+    </div>
+    <div class="footer-col footer-newsletter">
+      <h4>Get in Touch</h4>
+      <p>We'd love to hear from you and help plan your perfect birding stay.</p>
+      <a href="contact.html" class="btn-primary" style="display:inline-block;margin-top:0.5rem;">Contact Us</a>
+      <div style="margin-top:1.5rem;font-size:0.82rem;line-height:2;">
+        <div>📍 Padamchen, Gangtok District, Sikkim, India</div>
+        <div>📞 <a href="tel:+919836335018" style="color:var(--gold-light);">+91 98363 35018</a></div>
+        <div>✉️ <a href="mailto:whisperingwingshomestay@gmail.com" style="color:var(--gold-light);">whisperingwingshomestay@gmail.com</a></div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 Whispering Wings Padamchen. All rights reserved. Designed by <a href="mailto:tripyzen@gmail.com" style="color:#faf20a;">Tripyzen Hospitality Solutions.</a></p>
+  </div>
+</footer>
+
+<!-- ════════════════════════ FLOAT ACTIONS ════════════════════════ -->
+<div class="float-actions">
+  <a href="https://wa.me/919836335018" class="float-wa" target="_blank">💬</a>
+  <a href="tel:+919836335018" class="float-call">📞</a>
+</div>
+
+<script src="js/main.js"></script>
+</body>
+</html>
