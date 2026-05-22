@@ -163,10 +163,9 @@
     }
 
     /* ── Bird image placeholder (before real photos) ── */
-    .bird-img-placeholder {
+    /* .bird-img-placeholder {
       width: 100%;
       height: 460px;
-      /* background: linear-gradient(160deg, #d6eedd 0%, #b2d9c0 50%, #8cbfa3 100%); */
       background-image: url('images/padamchen_bird.jpg');
       display: flex;
       flex-direction: column;
@@ -174,6 +173,41 @@
       justify-content: center;
       gap: 1rem;
       border-radius: 12px;
+    } */
+
+    .bird-img-placeholder {
+      width: 100%;
+      height: 460px;
+      background-image: url('images/padamchen_bird.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-color: transparent;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      border-radius: 12px;
+    }
+    
+    @media (max-width: 900px) {
+      .bird-img-placeholder {
+        height: auto;
+        aspect-ratio: 4 / 3;
+      }
+    }
+    
+    @media (max-width: 700px) {
+      .bird-img-placeholder {
+        aspect-ratio: 3 / 2;
+      }
+    }
+    
+    @media (max-width: 420px) {
+      .bird-img-placeholder {
+        aspect-ratio: 1 / 1;
+      }
     }
     .bird-img-placeholder .ph-bird-emoji {
       font-size: 6rem;
